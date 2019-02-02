@@ -1,0 +1,210 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!--Author : Kashyap Thakkar, 000742712-->
+		<title>Student Registry</title>
+		
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+		
+		<div class="container">
+			<h1><strong>Student Registry</strong></h1>
+			<form class="form-horizontal" action = "" method = "post">
+				<div class="form-group form-group-lg" id="sNameFeedback">
+					<label for="sName" class="col-sm-2 control-label">Student Name:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="sName" name="sName">
+						<span id="sNameState"></span>
+					</div>
+					<div class="col-sm-4">
+						<span id="sNameHelp" class="help-block"></span>
+					</div>
+				</div>
+				<div class="form-group form-group-lg" id="sIDFeedback">
+					<label for="sID" class="col-sm-2 control-label">Student ID:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="sID" name="sID">
+						<span id="sIDState"></span>
+					</div>
+					<div class="col-sm-4">
+						<span id="sIDHelp" class="help-block"></span>
+					</div>
+				</div>
+				<div class="form-group form-group-lg" id="proFeedback">
+					<label for="program" class="col-sm-2 control-label">Program:</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="program" name="program">
+						<span id="proState"></span>
+					</div>
+					<div class="col-sm-4">
+						<span id="proHelp" class="help-block"></span>
+					</div>
+				</div>
+				<div class="form-group form-group-lg">
+					
+					<div class="col-sm-offset-2 col-sm-6">
+						<input class="btn btn-primary btn-lg" type="submit" value="Submit">
+					</div>
+				</div>
+				
+				
+			</form>	
+			<table class="table table-bordered" id = "mytable">
+				<thead>
+					<th>Student Name</th>
+					<th>Student ID</th>
+					<th>Program</th>
+				</thead>
+			</table>
+
+		</div>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script>
+			$(document).ready( function()
+				  {
+					$("#sName").keyup( function()
+					{
+					  $.post(
+						'parta.php',
+						{ act : "data1", sName : $("#sName").val() },
+						function (data)
+						{
+							
+							//document.write(data);
+								//'{"data1":1,"data2":1}'
+							
+							if (data.data1 == 1)
+							{
+								$("#sNameState").removeClass().addClass("glyphicon glyphicon-warning-sign form-control-feedback");
+								$("#sNameFeedback").removeClass().addClass("form-group form-group-lg has-warning has-feedback");
+								$("#sNameHelp").html("Student name may be fictitious.");
+							}else if(data.data1 == 2){
+								$("#sNameState").removeClass().addClass("glyphicon glyphicon-remove form-control-feedback");
+								$("#sNameFeedback").removeClass().addClass("form-group form-group-lg has-error has-feedback");
+								$("#sNameHelp").html("Student name cannot contain digits.");
+							}else if(data.data1 == 0){
+								$("#sNameState").removeClass();
+								$("#sNameFeedback").removeClass().addClass("form-group form-group-lg");
+								$("#sNameHelp").html("");
+							}else {
+								$("#sNameState").removeClass().addClass("glyphicon glyphicon-ok form-control-feedback");
+								$("#sNameFeedback").removeClass().addClass("form-group form-group-lg has-success has-feedback");
+								$("#sNameHelp").html("");
+							}
+
+						},
+						"json"
+					  )
+					});
+					$("#sID").keyup( function()
+					{
+					  $.post(
+						'parta.php',
+						{ act : "data2", sID : $("#sID").val() },
+						function (data)
+						{
+							
+							//document.write(data);
+								//'{"data1":1,"data2":1}'
+							
+							if (data.data2 == 1)
+							{
+								$("#sIDState").removeClass().addClass("glyphicon glyphicon-warning-sign form-control-feedback");
+								$("#sIDFeedback").removeClass().addClass("form-group form-group-lg has-warning has-feedback");
+								$("#sIDHelp").html("Student ID is suspicious.");
+							}else if(data.data2 == 2){
+								$("#sIDState").removeClass().addClass("glyphicon glyphicon-remove form-control-feedback");
+								$("#sIDFeedback").removeClass().addClass("form-group form-group-lg has-error has-feedback");
+								$("#sIDHelp").html("Student ID must only contain digits.");
+							}else if(data.data2 == 0){
+								$("#sIDState").removeClass();
+								$("#sIDFeedback").removeClass().addClass("form-group form-group-lg");
+								$("#sIDHelp").html("");
+							}else {
+								$("#sIDState").removeClass().addClass("glyphicon glyphicon-ok form-control-feedback");
+								$("#sIDFeedback").removeClass().addClass("form-group form-group-lg has-success has-feedback");
+								$("#sIDHelp").html("");
+							}
+
+						},
+						"json"
+					  )
+					});
+					
+					$("#program").keyup( function()
+					{
+					  $.post(
+						'parta.php',
+						{ act : "data3", program : $("#program").val() },
+						
+						function (data)
+						{
+							
+							//document.write(data);
+								//'{"data1":1,"data2":1}'
+							
+							if (data.data3 == 1)
+							{
+								$("#proState").removeClass().addClass("glyphicon glyphicon-warning-sign form-control-feedback");
+								$("#proFeedback").removeClass().addClass("form-group form-group-lg has-warning has-feedback");
+								$("#proHelp").html("Student ID is suspicious.");
+							}else if(data.data3 == 2){
+								$("#proState").removeClass().addClass("glyphicon glyphicon-remove form-control-feedback");
+								$("#proFeedback").removeClass().addClass("form-group form-group-lg has-error has-feedback");
+								$("#proHelp").html("Program does not exist.");
+							}else if(data.data3 == 0){
+								$("#proState").removeClass();
+								$("#proFeedback").removeClass().addClass("form-group form-group-lg");
+								$("#proHelp").html("");
+							}else {
+								$("#proState").removeClass().addClass("glyphicon glyphicon-ok form-control-feedback");
+								$("#proFeedback").removeClass().addClass("form-group form-group-lg has-success has-feedback");
+								$("#proHelp").html("");
+							}
+
+						},
+						"json"
+					  )
+					});
+					
+					
+					$('form.form-horizontal').on('submit',function(){
+						name = document.getElementById("sName").value;
+						id = document.getElementById("sID").value;
+						prg = document.getElementById("program").value;
+						
+						if(name.toLowerCase() == "harry potter" || name.toLowerCase() == "hermione grangers" || id == "000000000" || id == "111111111" || id == "222222222" || id == "333333333" || id == "444444444" || id == "555555555" || id == "666666666" || id == "777777777" || id == "888888888" || id == "999999999" || prg.toLowerCase() == "beanstalk climbing" || prg.toLowerCase() == "basket weaving"){
+							row = $("<tr></tr>");		
+							col1 = $("<td>" + document.getElementById("sName").value+ "</td>");
+							col2 = $("<td>" + document.getElementById("sID").value + "</td>");
+							col3 = $("<td>" + document.getElementById("program").value + "</td>");
+							row.append(col1,col2,col3).prependTo("#mytable");
+							row.addClass("warning");
+						}else if(/\d/.test(name) || isNaN(id) || prg.toLowerCase() == "geology" || prg.toLowerCase() == "microbiology" || name == "" || id == "" || prg == ""){
+							
+						}else{
+							row = $("<tr></tr>");		
+							col1 = $("<td>" + document.getElementById("sName").value+ "</td>");
+							col2 = $("<td>" + document.getElementById("sID").value + "</td>");
+							col3 = $("<td>" + document.getElementById("program").value + "</td>");
+							row.append(col1,col2,col3).prependTo("#mytable");
+
+						}
+						
+						
+					  return false;
+				  });
+					
+					
+				  });	
+				  
+				  
+					
+		</script>
+	</body>
+</html>
